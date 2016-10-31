@@ -1,0 +1,19 @@
+<?xml version="1.0"?>
+<package xmlns="http://schemas.microsoft.com/packaging/2010/07/nuspec.xsd">
+  <metadata>
+    <id>com.castsoftware.uc.ibatis</id>
+    <version>0.9.0</version>
+    <title>iBatis/MyBatis SQL support</title>
+    <authors>Mehdi Moulay-Rchid</authors>
+    <owners>CAST</owners>
+    <projectUrl></projectUrl>
+	<licenseUrl>http://www.castsoftware.com/ps/doc/extension/license</licenseUrl>
+    <requireLicenseAcceptance>false</requireLicenseAcceptance>
+    <description>This Field Extension provides iBatis/MyBatis SQL support</description>
+	<tags>MyBatis iBatis SQL</tags>
+    <releaseNotes></releaseNotes>
+    <dependencies>
+      <dependency id="CAIP" version="7.3.6" />
+    </dependencies>
+  </metadata>
+</package>

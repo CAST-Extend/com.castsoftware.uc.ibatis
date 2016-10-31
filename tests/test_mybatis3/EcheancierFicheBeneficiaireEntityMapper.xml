@@ -1,0 +1,139 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.mycompany.comptenominatif.mapper.EcheancierFicheBeneficiaireEntityMapper" >
+	<sql id="echeancierFicheBeneficiaireNextVal">select ECHEANCIERFICHEBENEFICIAIRE_SQ.nextval as id from dual</sql>
+
+    <resultMap id="EcheancierFicheBeneficiaireResultMap" type="EcheancierFicheBeneficiaire">
+        <result column="ID_ECHEANCIERFICHEBENEFICIAIRE" property="id"/>
+        <result column="VERSION" property="version"/>
+        <result column="DATECREATION" property="dateCreation"/>
+        <result column="DATEDEBUT" property="dateDebut"/>
+        <result column="DATEFIN" property="dateFin"/>
+        <result column="MONTANT" property="montant"/>
+        <result column="LNSTATUTECHFICHEBENEF_FK" property="lnStatutEchFicheBenef.code"/>
+        <result column="FICHEBENEFICIAIRE_FK" property="ficheBeneficiaireId"/>
+    </resultMap>
+	
+	<sql id="allFields">
+	    <trim suffixOverrides=",">
+	        ECHEANCIERFICHEBENEFICIAIRE.ID_ECHEANCIERFICHEBENEFICIAIRE,
+	        ECHEANCIERFICHEBENEFICIAIRE.VERSION,
+	        ECHEANCIERFICHEBENEFICIAIRE.DATECREATION,
+	        ECHEANCIERFICHEBENEFICIAIRE.DATEDEBUT,
+	        ECHEANCIERFICHEBENEFICIAIRE.DATEFIN,
+	        ECHEANCIERFICHEBENEFICIAIRE.MONTANT,
+	        ECHEANCIERFICHEBENEFICIAIRE.LNSTATUTECHFICHEBENEF_FK,
+	        ECHEANCIERFICHEBENEFICIAIRE.FICHEBENEFICIAIRE_FK,
+	    </trim>
+	</sql>
+
+	<select id="selectByPrimaryKey" parameterType="Long" resultMap="EcheancierFicheBeneficiaireResultMap">
+		SELECT <include refid="allFields" />
+		  FROM ECHEANCIERFICHEBENEFICIAIRE
+		 WHERE ID_ECHEANCIERFICHEBENEFICIAIRE = #{id}
+	</select>
+
+	<select id="dynamicSelect" parameterType="EcheancierFicheBeneficiaire" resultMap="EcheancierFicheBeneficiaireResultMap">
+		SELECT <include refid="allFields" />
+		  FROM ECHEANCIERFICHEBENEFICIAIRE
+	   <where>
+		   <if test="id != null">ID_ECHEANCIERFICHEBENEFICIAIRE = #{id}</if>
+	       <if test="version != null">AND VERSION = #{version}</if>
+	       <if test="dateCreation != null"> AND DATECREATION = #{dateCreation}</if>
+	       <if test="dateDebut != null"> AND DATEDEBUT = #{dateDebut}</if>
+	       <if test="dateFin != null"> AND DATEFIN = #{dateFin}</if>
+	       <if test="montant != null"> AND MONTANT = #{montant}</if>
+	       <if test="lnStatutEchFicheBenef != null and lnStatutEchFicheBenef.code != null"> AND LNSTATUTECHFICHEBENEF_FK = #{lnStatutEchFicheBenef.code}</if>
+	       
+	       <if test="ficheBeneficiaireId != null"> AND FICHEBENEFICIAIRE_FK = #{ficheBeneficiaireId}</if>
+	   </where>
+	</select>
+
+	<insert id="insert" parameterType="EcheancierFicheBeneficiaire">
+		<selectKey keyProperty="id" resultType="long" order="BEFORE">
+			<include refid="echeancierFicheBeneficiaireNextVal" />
+		</selectKey>
+		INSERT INTO ECHEANCIERFICHEBENEFICIAIRE (
+			ID_ECHEANCIERFICHEBENEFICIAIRE
+			<if test="dateCreation != null">,DATECREATION</if>
+			<if test="dateDebut != null">,DATEDEBUT</if>
+			<if test="dateFin != null">,DATEFIN</if>
+			<if test="montant != null">,MONTANT</if>
+			<if test="lnStatutEchFicheBenef != null and lnStatutEchFicheBenef.code != null">,LNSTATUTECHFICHEBENEF_FK</if>
+			<if test="ficheBeneficiaireId != null">,FICHEBENEFICIAIRE_FK</if>
+			)
+		VALUES(
+			#{id}
+			<if test="dateCreation != null">,#{dateCreation}</if>
+			<if test="dateDebut != null">,#{dateDebut}</if>
+			<if test="dateFin != null">,#{dateFin}</if>
+			<if test="montant != null">,#{montant}</if>
+			<if test="lnStatutEchFicheBenef != null and lnStatutEchFicheBenef.code != null">,#{lnStatutEchFicheBenef.code}</if>
+			<if test="ficheBeneficiaireId != null">,#{ficheBeneficiaireId}</if>
+		)
+	</insert>
+
+	<update id="update" parameterType="EcheancierFicheBeneficiaire">
+		UPDATE ECHEANCIERFICHEBENEFICIAIRE SET
+	        <if test="version != null">VERSION = #{version} + 1,</if>
+	        DATECREATION = #{dateCreation, jdbcType=TIMESTAMP}
+	        ,DATEDEBUT = #{dateDebut, jdbcType=TIMESTAMP}
+	        ,DATEFIN = #{dateFin, jdbcType=TIMESTAMP}
+	        ,MONTANT = #{montant, jdbcType=NUMERIC}
+	        
+	        ,
+	        LNSTATUTECHFICHEBENEF_FK = #{lnStatutEchFicheBenef.code,jdbcType=VARCHAR}
+	        
+	        ,
+	        FICHEBENEFICIAIRE_FK = #{ficheBeneficiaireId,jdbcType=NUMERIC}
+		 WHERE 
+	        ID_ECHEANCIERFICHEBENEFICIAIRE = #{id}
+			<if test="version != null">AND version = #{version}</if>
+	</update>
+
+	<update id="dynamicUpdate" parameterType="EcheancierFicheBeneficiaire">
+		UPDATE ECHEANCIERFICHEBENEFICIAIRE
+		 <set>
+	         <if test="version != null">VERSION = #{version} + 1,</if>
+	         <if test="dateCreation != null">DATECREATION = #{dateCreation},</if>
+	         <if test="dateDebut != null">DATEDEBUT = #{dateDebut},</if>
+	         <if test="dateFin != null">DATEFIN = #{dateFin},</if>
+	         <if test="montant != null">MONTANT = #{montant},</if>
+	         
+	         <if test="lnStatutEchFicheBenef != null and lnStatutEchFicheBenef.code != null">LNSTATUTECHFICHEBENEF_FK = #{lnStatutEchFicheBenef.code},</if>
+	         
+	         <if test="ficheBeneficiaireId != null">FICHEBENEFICIAIRE_FK = #{ficheBeneficiaireId},</if>
+		 </set>
+		 WHERE 
+	        ID_ECHEANCIERFICHEBENEFICIAIRE = #{id}
+			<if test="version != null">AND version = #{version}</if>
+	</update>
+
+	<delete id="delete" parameterType="Long">
+		DELETE FROM ECHEANCIERFICHEBENEFICIAIRE WHERE ID_ECHEANCIERFICHEBENEFICIAIRE = #{id}
+	</delete>
+
+	<!--Start of user code custom requests -->
+	<select id="selectEcheanciersADesactiver" parameterType="String" resultMap="EcheancierFicheBeneficiaireResultMap">
+		SELECT <include refid="allFields" />
+		FROM ECHEANCIERFICHEBENEFICIAIRE
+		INNER JOIN FICHEBENEFICIAIRE ON ECHEANCIERFICHEBENEFICIAIRE.FICHEBENEFICIAIRE_FK = FICHEBENEFICIAIRE.ID_FICHEBENEFICIAIRE
+		WHERE
+		   ECHEANCIERFICHEBENEFICIAIRE.DATEFIN <![CDATA[<]]> to_date(#{pDateActuelle}, 'DD/MM/YYYY') AND
+		   ECHEANCIERFICHEBENEFICIAIRE.LNSTATUTECHFICHEBENEF_FK != #{pDesactive} AND
+		   FICHEBENEFICIAIRE.CODEETABLISSEMENT = #{codeEtablissement}	
+		   
+	</select>
+	
+	<select id="selectEcheanciersAActiver" parameterType="String" resultMap="EcheancierFicheBeneficiaireResultMap">
+		SELECT <include refid="allFields" />
+		FROM ECHEANCIERFICHEBENEFICIAIRE
+		INNER JOIN FICHEBENEFICIAIRE ON ECHEANCIERFICHEBENEFICIAIRE.FICHEBENEFICIAIRE_FK = FICHEBENEFICIAIRE.ID_FICHEBENEFICIAIRE
+		WHERE
+		   ECHEANCIERFICHEBENEFICIAIRE.DATEDEBUT <![CDATA[<]]> to_date(#{pDateActuelle}, 'DD/MM/YYYY') AND
+		   ECHEANCIERFICHEBENEFICIAIRE.DATEFIN <![CDATA[>]]> to_date(#{pDateActuelle}, 'DD/MM/YYYY') AND
+		   ECHEANCIERFICHEBENEFICIAIRE.LNSTATUTECHFICHEBENEF_FK != #{pActive} AND
+		   FICHEBENEFICIAIRE.CODEETABLISSEMENT = #{codeEtablissement}	
+	</select>	
+	<!-- End of user code-->
+</mapper>
