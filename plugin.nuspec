@@ -6,7 +6,7 @@
     <title>iBatis/MyBatis SQL support</title>
     <authors>Mehdi Moulay-Rchid</authors>
     <owners>CAST</owners>
-    <projectUrl></projectUrl>
+    <projectUrl>https://github.com/CAST-Extend/com.castsoftware.uc.ibatis</projectUrl>
 	<licenseUrl>http://www.castsoftware.com/ps/doc/extension/license</licenseUrl>
     <requireLicenseAcceptance>false</requireLicenseAcceptance>
     <description>This Field Extension provides iBatis/MyBatis SQL support</description>
