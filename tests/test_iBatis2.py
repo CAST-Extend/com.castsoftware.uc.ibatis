@@ -12,6 +12,7 @@ class Test(unittest.TestCase):
         
         analysis = JEETestAnalysis()
         
+        # mimic presence of a table in dependencies
         employee_table = analysis.add_database_table('EMPLOYEE', 'Oracle')
         
         analysis.add_selection('test_ibatis2')
