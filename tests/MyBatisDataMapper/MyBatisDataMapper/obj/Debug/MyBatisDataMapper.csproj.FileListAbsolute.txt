@@ -1,0 +1,12 @@
+C:\Users\rayanj\documents\visual studio 2013\Projects\MyBatisDataMapper\MyBatisDataMapper\bin\Debug\providers.config
+C:\Users\rayanj\documents\visual studio 2013\Projects\MyBatisDataMapper\MyBatisDataMapper\bin\Debug\SqlMap.config
+C:\Users\rayanj\documents\visual studio 2013\Projects\MyBatisDataMapper\MyBatisDataMapper\bin\Debug\sqlFile.xml
+C:\Users\rayanj\documents\visual studio 2013\Projects\MyBatisDataMapper\MyBatisDataMapper\bin\Debug\MyBatisDataMapper.exe.config
+C:\Users\rayanj\documents\visual studio 2013\Projects\MyBatisDataMapper\MyBatisDataMapper\bin\Debug\MyBatisDataMapper.exe
+C:\Users\rayanj\documents\visual studio 2013\Projects\MyBatisDataMapper\MyBatisDataMapper\bin\Debug\MyBatisDataMapper.pdb
+C:\Users\rayanj\documents\visual studio 2013\Projects\MyBatisDataMapper\MyBatisDataMapper\bin\Debug\Castle.DynamicProxy.dll
+C:\Users\rayanj\documents\visual studio 2013\Projects\MyBatisDataMapper\MyBatisDataMapper\bin\Debug\IBatisNet.Common.dll
+C:\Users\rayanj\documents\visual studio 2013\Projects\MyBatisDataMapper\MyBatisDataMapper\bin\Debug\IBatisNet.DataMapper.dll
+C:\Users\rayanj\documents\visual studio 2013\Projects\MyBatisDataMapper\MyBatisDataMapper\obj\Debug\MyBatisDataMapper.csprojResolveAssemblyReference.cache
+C:\Users\rayanj\documents\visual studio 2013\Projects\MyBatisDataMapper\MyBatisDataMapper\obj\Debug\MyBatisDataMapper.exe
+C:\Users\rayanj\documents\visual studio 2013\Projects\MyBatisDataMapper\MyBatisDataMapper\obj\Debug\MyBatisDataMapper.pdb

@@ -1,0 +1,73 @@
+<metaModel  file_level="prepackaged" file_no="177">
+    <partial_type name="CAST_SQL_NamedQuery">
+      <inheritedCategory name="iBatisProperties"/>
+    </partial_type>
+        
+    <category name="iBatisProperties" id="1677000">
+        <description>Custom properties for iBatis/MyBatis</description>
+        <property name="parameterClass" type="string" id="1677001">
+            <description>Parameter Class</description>
+            <attribute name="INF_TYPE" intValue="9"/>
+            <attribute name="INF_SUB_TYPE" intValue="1677001"/>
+            <attribute name="ACCESS_APPVIEW" intValue="1"/>
+            <attribute name="ACCESS_CVS" intValue="1"/>
+            <attribute name="ACCESS_HTML" intValue="1"/>
+      </property>
+      <property name="resultClass" type="string" id="1677002">
+            <description>Result Class</description>
+            <attribute name="INF_TYPE" intValue="9"/>
+            <attribute name="INF_SUB_TYPE" intValue="1677002"/>
+            <attribute name="ACCESS_APPVIEW" intValue="1"/>
+            <attribute name="ACCESS_CVS" intValue="1"/>
+            <attribute name="ACCESS_HTML" intValue="1"/>
+      </property>
+      <property name="listClass" type="string" id="1677003">
+            <description>List Class</description>
+            <attribute name="INF_TYPE" intValue="9"/>
+            <attribute name="INF_SUB_TYPE" intValue="1677003"/>
+            <attribute name="ACCESS_APPVIEW" intValue="1"/>
+            <attribute name="ACCESS_CVS" intValue="1"/>
+            <attribute name="ACCESS_HTML" intValue="1"/>
+      </property>
+      <property name="resultMap" type="string" id="1677004">
+            <description>Result Map</description>
+            <attribute name="INF_TYPE" intValue="9"/>
+            <attribute name="INF_SUB_TYPE" intValue="1677004"/>
+            <attribute name="ACCESS_APPVIEW" intValue="1"/>
+            <attribute name="ACCESS_CVS" intValue="1"/>
+            <attribute name="ACCESS_HTML" intValue="1"/>
+      </property>
+      <property name="parameterMap" type="string" id="1677005">
+            <description>Parameter Map</description>
+            <attribute name="INF_TYPE" intValue="9"/>
+            <attribute name="INF_SUB_TYPE" intValue="1677005"/>
+            <attribute name="ACCESS_APPVIEW" intValue="1"/>
+            <attribute name="ACCESS_CVS" intValue="1"/>
+            <attribute name="ACCESS_HTML" intValue="1"/>
+      </property>
+      <property name="class" type="string" id="1677006">
+            <description>class from result Map</description>
+            <attribute name="INF_TYPE" intValue="9"/>
+            <attribute name="INF_SUB_TYPE" intValue="1677006"/>
+            <attribute name="ACCESS_APPVIEW" intValue="1"/>
+            <attribute name="ACCESS_CVS" intValue="1"/>
+            <attribute name="ACCESS_HTML" intValue="1"/>
+      </property>
+      <property name="resultType" type="string" id="1677007">
+            <description>class from result Type</description>
+            <attribute name="INF_TYPE" intValue="9"/>
+            <attribute name="INF_SUB_TYPE" intValue="1677007"/>
+            <attribute name="ACCESS_APPVIEW" intValue="1"/>
+            <attribute name="ACCESS_CVS" intValue="1"/>
+            <attribute name="ACCESS_HTML" intValue="1"/>
+      </property>
+        <property name="namespace" type="string" id="1677009">
+            <description>Namespace</description>
+            <attribute name="INF_TYPE" intValue="9"/>
+            <attribute name="INF_SUB_TYPE" intValue="1677009"/>
+            <attribute name="ACCESS_APPVIEW" intValue="1"/>
+            <attribute name="ACCESS_CVS" intValue="1"/>
+            <attribute name="ACCESS_HTML" intValue="1"/>
+      </property>      
+    </category>    
+</metaModel>
