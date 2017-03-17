@@ -8,17 +8,16 @@ import xml.etree.ElementTree as ET
 class MyBatis3SQLNamedQuery(cast.analysers.jee.Extension):
     
     def start_analysis(self, options):
-        log.info('start_analysis MyBatis3')
+        log.info('Register MyBatis3 xml file pattern')
         options.handle_xml_with_xpath('//mapper')
 
-    def start_xml_file(self, file):
-        log.info('scanning file %s for MyBatis3' % file.get_path())
-        
+    def start_xml_file(self, file):        
         tree = ET.ElementTree(file=open(file.get_path()))
         root=tree.getroot()
         if root.tag != 'mapper':
             pass
         else:                        
+            log.info('Scanning MyBatis3 file: %s' % file.get_path())
             typeAliases = TypeAliases.parse(root)
             
             resultMaps = ResultMaps.parse(root, typeAliases)
@@ -45,17 +44,16 @@ class MyBatis3SQLNamedQuery(cast.analysers.jee.Extension):
 class iBatis2SQLNamedQuery(cast.analysers.jee.Extension):
     
     def start_analysis(self, options):
-        log.info('start_analysis iBatis2')
+        log.info('Register iBatis2 file pattern')
         options.handle_xml_with_xpath('//sqlMap')
 
-    def start_xml_file(self, file):
-        log.info('scanning file %s for iBatis2' % file.get_path())
-        
+    def start_xml_file(self, file):       
         tree = ET.ElementTree(file=open(file.get_path()))
         root=tree.getroot()
         if root.tag != 'sqlMap':
             pass
         else:
+            log.info('Scanning iBatis2 file: %s' % file.get_path())
             typeAliases = TypeAliases.parse(root)
             
             resultMaps = ResultMaps.parse(root, typeAliases)
@@ -82,7 +80,7 @@ class iBatis2SQLNamedQuery(cast.analysers.jee.Extension):
 class iBatis2DotNetSQLNamedQuery(cast.analysers.dotnet.Extension):
     
     def start_analysis(self, options):
-        log.info('start_analysis iBatis.NET')
+        log.info('iBatis.NET extension loaded')
     
     def start_file(self, file):
         if file.get_name().endswith('xml'):
@@ -90,7 +88,7 @@ class iBatis2DotNetSQLNamedQuery(cast.analysers.dotnet.Extension):
             tree = ET.parse(file.get_path(), ET.XMLParser(encoding="utf-8"))
             root=tree.getroot()
             if root.tag == 'sqlMap' or root.tag == '{http://ibatis.apache.org/mapping}sqlMap' :
-                log.info('Scanning iBatis2 file: %s' % file.get_name())
+                log.info('Scanning iBatis.NET file: %s' % file.get_name())
                 
                 typeAliases = TypeAliases.parse(root)
                 
@@ -212,7 +210,7 @@ class CommonParsing():
             log.info(' - creating links...')
             for embedded in external_link.analyse_embedded(sql):
                 for t in embedded.types:
-                    log.info(' - link to : %s' % embedded.callee.get_name())
+                    #log.info(' - link to : %s' % embedded.callee.get_name())
                     create_link(t, sqlquery, embedded.callee)
             
             #Save all potential properties for later use
