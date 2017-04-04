@@ -1,0 +1,20 @@
+<?xml version="1.0"?>
+<package xmlns="http://schemas.microsoft.com/packaging/2010/07/nuspec.xsd">
+  <metadata>
+    <id>com.castsoftware.uc.ibatis</id>
+    <version>1.0.2</version>
+    <title>MyBatis iBatis iBatis.Net SQL support</title>
+    <authors>CAST User Community</authors>
+    <owners>Mehdi Moulay-Rchid / Julien Godfroid</owners>
+    <projectUrl>https://github.com/CAST-Extend/com.castsoftware.uc.ibatis</projectUrl>
+    <iconUrl>https://raw.githubusercontent.com/CAST-Extend/com.castsoftware.uc.ibatis/master/mybatis.png</iconUrl>
+    <licenseUrl>http://www.castsoftware.com/ps/doc/extension/license</licenseUrl>
+    <requireLicenseAcceptance>false</requireLicenseAcceptance>
+    <description>This Field Extension provides iBatis/MyBatis/iBatis.Net SQL support</description>
+    <tags>Framework CSS Oracle MS CAIP8.0.x CAIP8.1.x CAIP8.2.x MyBatis iBatis iBatis.Net</tags>
+    <releaseNotes>First version</releaseNotes>
+    <dependencies>
+      <dependency id="CAIP" version="7.3.6" />
+    </dependencies>
+  </metadata>
+</package>

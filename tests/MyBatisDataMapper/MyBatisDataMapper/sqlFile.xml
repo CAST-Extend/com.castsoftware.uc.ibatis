@@ -1,10 +1,26 @@
 ﻿<?xml version="1.0" encoding="utf-8" ?>
 <sqlMap namespace="MyBatisApp" xmlns="http://ibatis.apache.org/mapping" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" >
-
+  
+  <typeAlias type="model.Employee, Assembly" alias="Employee"/>
+  <typeAlias type="model.Employee" alias="EmployeeOldSchool"/>
+  
   <statements>
+    <sql id="DepartmentTableClause">
+    FROM Department
+    </sql>
     <statement id="FindDepartment" parameterClass="System.Int32" resultClass="System.String" >
       SELECT Name
       FROM Department
+      WHERE Id =  #value#
+    </statement>
+    <statement id="FindDepartment2" parameterClass="System.Int32" resultType="Employee" >
+      SELECT Name
+      FROM Department
+      WHERE Id =  #value#
+    </statement>
+    <statement id="FindDepartment3" parameterClass="System.Int32" resultType="EmployeeOldSchool" >
+      SELECT Name
+      <include refid="DepartmentTableClause"/>
       WHERE Id =  #value#
     </statement>
     <procedure id="GetEmployees" parameterMap="get-employees-params"  resultMap="get-employee-result">

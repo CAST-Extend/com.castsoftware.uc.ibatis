@@ -4,6 +4,9 @@ import cast.analysers.dotnet
 from cast.analysers import log, CustomObject, external_link, create_link
 import xml.etree.ElementTree as ET
 
+#TODO
+# Perf
+# Namespace for MyBatis.NET
 
 class MyBatis3SQLNamedQuery(cast.analysers.jee.Extension):
     
@@ -22,23 +25,25 @@ class MyBatis3SQLNamedQuery(cast.analysers.jee.Extension):
             
             resultMaps = ResultMaps.parse(root, typeAliases)
             
+            sql_queries = CommonParsing.get_sql_queries(root)
+            
             statement_queries = CommonParsing.get_statement_queries(root)
-            CommonParsing.add_sqlnamedquery(statement_queries, resultMaps, file, root.attrib['namespace'])
+            CommonParsing.add_sqlnamedquery(statement_queries, sql_queries, resultMaps, typeAliases, file, root.attrib['namespace'])
                 
             procedure_queries = CommonParsing.get_procedure_queries(root)
-            CommonParsing.add_sqlnamedquery(procedure_queries, resultMaps, file, root.attrib['namespace'])
+            CommonParsing.add_sqlnamedquery(procedure_queries, sql_queries, resultMaps, typeAliases, file, root.attrib['namespace'])
             
             select_queries = CommonParsing.get_select_queries(root)
-            CommonParsing.add_sqlnamedquery(select_queries, resultMaps, file, root.attrib['namespace'])
+            CommonParsing.add_sqlnamedquery(select_queries, sql_queries, resultMaps, typeAliases, file, root.attrib['namespace'])
             
             insert_queries = CommonParsing.get_insert_queries(root)
-            CommonParsing.add_sqlnamedquery(insert_queries, resultMaps, file, root.attrib['namespace'])  
+            CommonParsing.add_sqlnamedquery(insert_queries, sql_queries, resultMaps, typeAliases, file, root.attrib['namespace'])  
             
             update_queries = CommonParsing.get_update_queries(root)          
-            CommonParsing.add_sqlnamedquery(update_queries, resultMaps, file, root.attrib['namespace'])            
+            CommonParsing.add_sqlnamedquery(update_queries, sql_queries, resultMaps, typeAliases, file, root.attrib['namespace'])            
             
             delete_queries = CommonParsing.get_delete_queries(root)
-            CommonParsing.add_sqlnamedquery(delete_queries, resultMaps, file, root.attrib['namespace'])        
+            CommonParsing.add_sqlnamedquery(delete_queries, sql_queries, resultMaps, typeAliases, file, root.attrib['namespace'])        
 
 
 class iBatis2SQLNamedQuery(cast.analysers.jee.Extension):
@@ -58,23 +63,25 @@ class iBatis2SQLNamedQuery(cast.analysers.jee.Extension):
             
             resultMaps = ResultMaps.parse(root, typeAliases)
             
+            sql_queries = CommonParsing.get_sql_queries(root)
+            
             statement_queries = CommonParsing.get_statement_queries(root)
-            CommonParsing.add_sqlnamedquery(statement_queries, resultMaps, file, '')
+            CommonParsing.add_sqlnamedquery(statement_queries, sql_queries, resultMaps, typeAliases, file, '')
                 
             procedure_queries = CommonParsing.get_procedure_queries(root)
-            CommonParsing.add_sqlnamedquery(procedure_queries, resultMaps, file, '')
+            CommonParsing.add_sqlnamedquery(procedure_queries, sql_queries, resultMaps, typeAliases, file, '')
             
             select_queries = CommonParsing.get_select_queries(root)
-            CommonParsing.add_sqlnamedquery(select_queries, resultMaps, file, '')
+            CommonParsing.add_sqlnamedquery(select_queries, sql_queries, resultMaps, typeAliases, file, '')
             
             insert_queries = CommonParsing.get_insert_queries(root)
-            CommonParsing.add_sqlnamedquery(insert_queries, resultMaps, file, '')  
+            CommonParsing.add_sqlnamedquery(insert_queries, sql_queries, resultMaps, typeAliases, file, '')  
             
             update_queries = CommonParsing.get_update_queries(root)          
-            CommonParsing.add_sqlnamedquery(update_queries, resultMaps, file, '')            
+            CommonParsing.add_sqlnamedquery(update_queries, sql_queries, resultMaps, typeAliases, file, '')            
             
             delete_queries = CommonParsing.get_delete_queries(root)
-            CommonParsing.add_sqlnamedquery(delete_queries, resultMaps, file, '')                    
+            CommonParsing.add_sqlnamedquery(delete_queries, sql_queries, resultMaps, typeAliases, file, '')                    
 
             
 class iBatis2DotNetSQLNamedQuery(cast.analysers.dotnet.Extension):
@@ -94,23 +101,25 @@ class iBatis2DotNetSQLNamedQuery(cast.analysers.dotnet.Extension):
                 
                 resultMaps = ResultMaps.parse(root, typeAliases)
                      
+                sql_queries = CommonParsing.get_sql_queries(root)
+                     
                 statement_queries = CommonParsing.get_statement_queries(root)
-                CommonParsing.add_sqlnamedquery(statement_queries, resultMaps, file, '')
+                CommonParsing.add_sqlnamedquery(statement_queries, sql_queries, resultMaps, typeAliases, file, '')
                 
                 procedure_queries = CommonParsing.get_procedure_queries(root)
-                CommonParsing.add_sqlnamedquery(procedure_queries, resultMaps, file, '')
+                CommonParsing.add_sqlnamedquery(procedure_queries, sql_queries, resultMaps, typeAliases, file, '')
                 
                 select_queries = CommonParsing.get_select_queries(root)
-                CommonParsing.add_sqlnamedquery(select_queries, resultMaps, file, '')
+                CommonParsing.add_sqlnamedquery(select_queries, sql_queries, resultMaps, typeAliases, file, '')
                 
                 insert_queries = CommonParsing.get_insert_queries(root)
-                CommonParsing.add_sqlnamedquery(insert_queries, resultMaps, file, '')  
+                CommonParsing.add_sqlnamedquery(insert_queries, sql_queries, resultMaps, typeAliases, file, '')  
                 
                 update_queries = CommonParsing.get_update_queries(root)          
-                CommonParsing.add_sqlnamedquery(update_queries, resultMaps, file, '')            
+                CommonParsing.add_sqlnamedquery(update_queries, sql_queries, resultMaps, typeAliases, file, '')            
                 
                 delete_queries = CommonParsing.get_delete_queries(root)
-                CommonParsing.add_sqlnamedquery(delete_queries, resultMaps, file, '')
+                CommonParsing.add_sqlnamedquery(delete_queries, sql_queries, resultMaps, typeAliases, file, '')
 
 class TypeAliases():
     @staticmethod
@@ -119,12 +128,15 @@ class TypeAliases():
     
         for node in root.findall('.//{http://ibatis.apache.org/mapping}typeAlias'):
             if 'type' in node.attrib:          
-                result[node.attrib['alias']] = node.attrib['type']
+                result[node.attrib['alias']] = node.attrib['type'].split(",")[0]
         
         for node in root.findall('.//typeAlias'):
             if 'type' in node.attrib: 
-                result[node.attrib['alias']] = node.attrib['type']
-            
+                result[node.attrib['alias']] = node.attrib['type'].split(",")[0]
+        
+        #log.info('Aliases')
+        #for aliasId, aliasType in result.items():
+        #    log.info(' - %s: %s' % (aliasId, aliasType)) 
         return result
                     
 class ResultMaps():
@@ -145,7 +157,7 @@ class ResultMaps():
                     result[node.attrib['id']] = typeAliases[node.attrib['class']]
                 else:     
                     result[node.attrib['id']] = node.attrib['class']
-            
+           
         return result
 
 class CommonParsing():
@@ -175,22 +187,14 @@ class CommonParsing():
         result = {}
     
         for node in root.findall('.//{http://ibatis.apache.org/mapping}' + str_type):
-            select_text = node.text
-            for sub_node in node:
-                select_text += sub_node.tail
-            
             result[node.attrib['id']] = node
         
         for node in root.findall('.//' + str_type):
-            select_text = node.text
-            for sub_node in node:
-                select_text += sub_node.tail
-            
             result[node.attrib['id']] = node #select_text
         return result
     
     @staticmethod
-    def add_sqlnamedquery(sqltable, resultMaps, file, namespace):
+    def add_sqlnamedquery(sqltable, sql_queries, resultMaps, typeAliases, file, namespace):
         for sqlid, node in sqltable.items():
             log.info('NEW Named Query - %s' % sqlid)            
             
@@ -203,8 +207,12 @@ class CommonParsing():
             #Get SQL from node
             sql = node.text
             for sub_node in node:
-                sql += sub_node.tail
+                if sub_node.attrib['refid'] in sql_queries:
+                    sql += sql_queries[sub_node.attrib['refid']].text.strip()
+                if sub_node.tail:
+                    sql += sub_node.tail
             
+            #log.info('SQL: %s' % sql)
             sqlquery.save_property('CAST_SQL_MetricableQuery.sqlQuery', sql)
             
             log.info(' - creating links...')
@@ -214,12 +222,13 @@ class CommonParsing():
                     create_link(t, sqlquery, embedded.callee)
             
             #Save all potential properties for later use
-            CommonParsing.add_property(sqlquery, node, 'parameterClass')
-            CommonParsing.add_property(sqlquery, node, 'resultClass')
-            CommonParsing.add_property(sqlquery, node, 'listClass')
-            CommonParsing.add_property(sqlquery, node, 'resultMap')
-            CommonParsing.add_property(sqlquery, node, 'parameterMap')
-            CommonParsing.add_property(sqlquery, node, 'resultType')
+            CommonParsing.add_property(sqlquery, node, 'parameterClass', typeAliases)
+            CommonParsing.add_property(sqlquery, node, 'parameterType', typeAliases)
+            CommonParsing.add_property(sqlquery, node, 'resultClass', typeAliases)
+            CommonParsing.add_property(sqlquery, node, 'listClass', typeAliases)
+            CommonParsing.add_property(sqlquery, node, 'resultMap', typeAliases)
+            CommonParsing.add_property(sqlquery, node, 'resultType', typeAliases)
+            CommonParsing.add_property(sqlquery, node, 'parameterMap', typeAliases)
             
             if (namespace != ''):
                 log.debug('Habemus namespacus!')
@@ -231,8 +240,12 @@ class CommonParsing():
                     sqlquery.save_property('iBatisProperties.class', mapClass)
     
     @staticmethod
-    def add_property(sqlquery, node, prop):
+    def add_property(sqlquery, node, prop, typeAliases):
         if prop in node.attrib:
-            log.debug(' - %s: %s' % (prop, node.attrib[prop]))
-            sqlquery.save_property('iBatisProperties.%s' % prop, node.attrib[prop])
+            if node.attrib[prop] in typeAliases:
+                log.debug(' - %s: %s' % (prop, typeAliases[node.attrib[prop]]))
+                sqlquery.save_property('iBatisProperties.%s' % prop, typeAliases[node.attrib[prop]])
+            else:
+                log.debug(' - %s: %s' % (prop, node.attrib[prop]))
+                sqlquery.save_property('iBatisProperties.%s' % prop, node.attrib[prop])
             
