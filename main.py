@@ -190,7 +190,7 @@ class CommonParsing():
             result[node.attrib['id']] = node
         
         for node in root.findall('.//' + str_type):
-            result[node.attrib['id']] = node #select_text
+            result[node.attrib['id']] = node 
         return result
     
     @staticmethod
@@ -207,7 +207,7 @@ class CommonParsing():
             #Get SQL from node
             sql = node.text
             for sub_node in node:
-                if sub_node.attrib['refid'] in sql_queries:
+                if 'refid' in sub_node.attrib and sub_node.attrib['refid'] in sql_queries:
                     sql += sql_queries[sub_node.attrib['refid']].text.strip()
                 if sub_node.tail:
                     sql += sub_node.tail

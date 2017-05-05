@@ -1,0 +1,167 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE sqlMap
+PUBLIC "-//iBATIS.com//DTD SQL Map 2.0//EN" "http://www.ibatis.com/dtd/sql-map-2.dtd">
+
+<sqlMap namespace="prepaidSku">
+
+	<typeAlias alias="prepaidSku"
+		type="com.cingular.commissions.mycomp2006.model.vo.prepaidsku.PrepaidSkuVO" />
+		
+		
+	<resultMap id="prepaidSkuResult" class="prepaidSku">
+		<result property="key" column="ITM_PRODUCT_CODES_KEY" />
+	
+		<result property="productCode" column="PRODUCT_CODE" />
+		<result property="description" column="PRODUCT_DSCR" />
+		
+		<result property="effectiveDate" column="EFF_DATE" />
+		<result property="expiredDate" column="EXP_DATE" />
+		<result property="modUser" column="MOD_USER" />
+		<result property="modDate" column="MOD_DATE" />
+
+	</resultMap>		
+		
+		
+		
+		
+	<sql id="listPrepaidSkuSql">
+		SELECT ITM.*, PC.PRODUCT_DSCR FROM ITM_PRODUCT_CODES ITM, PRODUCT_CODES PC
+		WHERE ITM.PRODUCT_CODE = PC.PRODUCT_CODE
+		
+		
+		<isEqual property="active" compareValue="Y" prepend="AND">
+			(ITM.EXP_DATE >= SYSDATE OR ITM.EXP_DATE IS NULL)
+		</isEqual>
+
+		<isEqual property="active" compareValue="N" prepend="AND">
+			(ITM.EXP_DATE <![CDATA[ < ]]>SYSDATE)
+		</isEqual>
+
+		<isNotNull property="search" prepend="AND">
+			(
+			TRIM(UPPER(ITM.PRODUCT_CODE)) LIKE TRIM(UPPER('%$search$%'))
+			OR
+			TRIM(UPPER(PC.PRODUCT_DSCR)) LIKE TRIM(UPPER('%$search$%'))
+			)
+		</isNotNull>
+	
+			
+		
+		ORDER BY ITM.MOD_DATE DESC
+	</sql>
+
+
+
+	<select id="getPrepaidSkuList" resultMap="prepaidSkuResult"
+		parameterClass="map">
+		SELECT * FROM (SELECT a.*, ROWNUM RN FROM (
+			<include refid="listPrepaidSkuSql" />) a WHERE ROWNUM <![CDATA[<=]]>#endSize#
+		) WHERE RN >= #startSize#
+	</select>
+
+	<select id="getPrepaidSkuListCount" resultClass="integer"
+		parameterClass="map">
+		SELECT COUNT(*) FROM (
+			<include refid="listPrepaidSkuSql" />
+		)a
+	</select>
+		
+		
+	<select id="nextPrepaidSku" resultClass="java.lang.Integer">
+		SELECT SEQ_ITM_PRODUCT_CODES.NEXTVAL FROM DUAL
+	</select>		
+		
+		
+		
+	<insert id="insertPrepaidSku" parameterClass="prepaidSku">
+		INSERT INTO
+		ITM_PRODUCT_CODES(ITM_PRODUCT_CODES_KEY,PRODUCT_CODE,EFF_DATE,EXP_DATE,MOD_USER,MOD_DATE)
+		VALUES(#key#,#productCode#,#effectiveDate#,#expiredDate#,#modUser#,SYSDATE)
+	</insert>		
+		
+		
+	<update id="updatePrepaidSku" parameterClass="prepaidSku">
+		UPDATE ITM_PRODUCT_CODES SET
+		PRODUCT_CODE=#productCode#,EFF_DATE=#effectiveDate#,EXP_DATE=#expiredDate#,MOD_USER=#modUser#,MOD_DATE=SYSDATE
+		WHERE ITM_PRODUCT_CODES_KEY=#key#
+	</update>
+	
+			
+	<select id="getPrepaidSkuByKey" resultMap="prepaidSkuResult"
+		parameterClass="integer">
+		SELECT ITM.*, PC.PRODUCT_DSCR FROM 
+		ITM_PRODUCT_CODES ITM, PRODUCT_CODES PC 
+		WHERE ITM.PRODUCT_CODE = PC.PRODUCT_CODE
+		AND ITM.ITM_PRODUCT_CODES_KEY = #value#
+	</select>
+	
+	
+	<delete id="deletePrepaidSku" parameterClass="integer">
+		DELETE FROM ITM_PRODUCT_CODES WHERE ITM_PRODUCT_CODES_KEY =#value#
+	</delete>	
+	
+	
+	<select id="getPrepaidSkuCount" resultClass="integer"
+		parameterClass="prepaidSku">
+		SELECT COUNT(ITM_PRODUCT_CODES_KEY) TOTAL FROM ITM_PRODUCT_CODES
+		WHERE PRODUCT_CODE= #productCode#
+	
+	
+		AND ITM_PRODUCT_CODES_KEY <![CDATA[<>]]> #key#
+		
+		
+		<isNotNull property="expiredDate" prepend="AND">
+			(EFF_DATE BETWEEN #effectiveDate# AND #expiredDate# OR
+			EXP_DATE BETWEEN #effectiveDate# AND #expiredDate# OR
+
+			#effectiveDate# BETWEEN EFF_DATE AND EXP_DATE OR
+			#expiredDate# BETWEEN EFF_DATE AND EXP_DATE OR
+
+			EXP_DATE IS NULL)
+			AND EFF_DATE <![CDATA[<=]]>
+			#expiredDate#
+		</isNotNull>
+
+		<isNull property="expiredDate" prepend="AND">
+			(#effectiveDate# BETWEEN EFF_DATE AND EXP_DATE OR
+			((EFF_DATE >= #effectiveDate# AND EXP_DATE >= #effectiveDate#) OR EXP_DATE IS
+			NULL))
+		</isNull>
+	
+	</select>	
+	
+	
+	<select id="getAllPrepaidSkuList" resultMap="prepaidSkuResult"
+		parameterClass="map">
+	
+		SELECT ITM.*, PC.PRODUCT_DSCR FROM ITM_PRODUCT_CODES ITM, PRODUCT_CODES PC
+		WHERE ITM.PRODUCT_CODE = PC.PRODUCT_CODE
+		
+		<isNull property="expiredDate" prepend="AND">
+			(ITM.EXP_DATE >= TO_DATE(#effectiveDate#,'MM/DD/YYYY') OR ITM.EXP_DATE IS NULL)
+		</isNull>
+
+		<isNotNull property="expiredDate" prepend="AND">
+			((ITM.EFF_DATE <![CDATA[<=]]>
+			TO_DATE(#effectiveDate#,'MM/DD/YYYY') AND ITM.EXP_DATE >=
+			TO_DATE(#effectiveDate#,'MM/DD/YYYY'))
+
+			OR (ITM.EFF_DATE <![CDATA[>=]]>
+			TO_DATE(#effectiveDate#,'MM/DD/YYYY') AND ITM.EXP_DATE <![CDATA[<=]]>
+			TO_DATE(#expiredDate#,'MM/DD/YYYY'))
+
+			OR (ITM.EFF_DATE <![CDATA[<=]]>
+			TO_DATE(#expiredDate#,'MM/DD/YYYY') AND ITM.EXP_DATE <![CDATA[>=]]>
+			TO_DATE(#expiredDate#,'MM/DD/YYYY'))
+
+			OR ITM.EXP_DATE IS NULL)
+			
+			AND ITM.EFF_DATE <![CDATA[<=]]> TO_DATE(#expiredDate#,'MM/DD/YYYY')
+		</isNotNull>
+			
+					
+		ORDER BY ITM.MOD_DATE DESC
+	</select>
+	
+					
+</sqlMap>		
