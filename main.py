@@ -219,7 +219,8 @@ class CommonParsing():
             for embedded in external_link.analyse_embedded(sql):
                 for t in embedded.types:
                     #log.info(' - link to : %s' % embedded.callee.get_name())
-                    create_link(t, sqlquery, embedded.callee)
+                    link = create_link(t, sqlquery, embedded.callee)
+                    link.mark_as_not_sure()
             
             #Save all potential properties for later use
             CommonParsing.add_property(sqlquery, node, 'parameterClass', typeAliases)
