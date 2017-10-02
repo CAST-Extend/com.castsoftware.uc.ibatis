@@ -2,7 +2,7 @@
 <package xmlns="http://schemas.microsoft.com/packaging/2010/07/nuspec.xsd">
   <metadata>
     <id>com.castsoftware.uc.ibatis</id>
-    <version>1.0.4</version>
+    <version>1.0.5</version>
     <title>MyBatis iBatis iBatis.Net SQL support</title>
     <authors>User Community</authors>
     <owners>CAST</owners>

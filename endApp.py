@@ -44,7 +44,8 @@ class MyBatisLinks():
         for methodObject in application.search_objects(name=namedQuery.get_name(), category='JV_METHOD'):
             if methodObject.get_fullname() == '%s.%s' % (namedQuery.get_property('iBatisProperties.namespace'), namedQuery.get_name()):
                 logging.debug('MyBatis structural link from %s to %s' % (methodObject.get_fullname(), namedQuery.get_name()))
-                create_link('useLink', methodObject, namedQuery)
+                link = create_link('useLink', methodObject, namedQuery)
+                link.mark_as_not_sure()
 
 class iBatisLinks():
     @staticmethod
@@ -75,4 +76,5 @@ class iBatisLinks():
     def create_iBatisLink(application, namedQuery, prop, classname, constructorObject):  
         if constructorObject.get_fullname() == '%s.%s' % (namedQuery.get_property(prop), classname):
             logging.debug('iBatis structural link from %s to %s' % (namedQuery.get_name(), constructorObject.get_fullname()))
-            create_link('referLink', namedQuery, constructorObject)
+            link = create_link('referLink', namedQuery, constructorObject)
+            link.mark_as_not_sure()
