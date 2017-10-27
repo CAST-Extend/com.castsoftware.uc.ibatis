@@ -1,4 +1,3 @@
-import cast_upgrade_1_5_3 # @UnusedImport
 import cast.analysers.jee
 import cast.analysers.dotnet
 from cast.analysers import log, CustomObject, external_link, create_link

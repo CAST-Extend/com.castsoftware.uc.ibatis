@@ -1,4 +1,4 @@
-import cast_upgrade_1_5_3 # @UnusedImport
+import cast_upgrade_1_5_14 # @UnusedImport
 from cast.application import ApplicationLevelExtension, create_link, ReferenceFinder
 import logging
 
@@ -39,7 +39,8 @@ class ApplicationExtension(ApplicationLevelExtension):
 
 class MyBatisLinks():                
     @staticmethod
-    def create(application, namedQuery):   
+    def create(application, namedQuery):
+        # @todo : inefficient : this a unitary query inside a loop
         logging.debug('Looking for %s' % namedQuery.get_name())     
         for methodObject in application.search_objects(name=namedQuery.get_name(), category='JV_METHOD'):
             if methodObject.get_fullname() == '%s.%s' % (namedQuery.get_property('iBatisProperties.namespace'), namedQuery.get_name()):
