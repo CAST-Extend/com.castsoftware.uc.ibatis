@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE sqlMap PUBLIC "-//ibatis.apache.org//DTD SQL Map 2.0//EN" "http://ibatis.apache.org/dtd/sql-map-2.dtd">
+<sqlMap namespace="Employee">
+<insert id="insert" parameterClass="Employee">
+insert into EMPLOYEE(first_name, last_name, salary)
+values (#first_name#, #last_name#, #salary#)
+	<selectKey resultClass="int" keyProperty="id">
+		select last_insert_id() as id
+	</selectKey>
+</insert>
+
+
+<!-- 我的大脑思考 -->
+<select id="selectMyEmployees" parameterClass="Employee">
+select * from EMPLOYEE where first_name='TOTO'
+</select>
+
+<update id="updateBob" parameterClass="Employee">
+update EMPLOYEE SET last_name = 'Bob' where first_name='Dylan'
+</update>
+
+<delete id="deleteAll" parameterClass="Employee">
+DELETE EMPLOYEE where 1=1
+</delete>
+
+
+</sqlMap>

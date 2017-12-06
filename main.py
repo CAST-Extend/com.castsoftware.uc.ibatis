@@ -1,7 +1,10 @@
+import cast_upgrade_1_5_14 # @UnusedImport
 import cast.analysers.jee
 import cast.analysers.dotnet
 from cast.analysers import log, CustomObject, external_link, create_link
 import xml.etree.ElementTree as ET
+from cast.application import open_source_file
+
 
 #TODO
 # Perf
@@ -14,7 +17,7 @@ class MyBatis3SQLNamedQuery(cast.analysers.jee.Extension):
         options.handle_xml_with_xpath('//mapper')
 
     def start_xml_file(self, file):        
-        tree = ET.ElementTree(file=open(file.get_path()))
+        tree = ET.ElementTree(file=open_source_file(file.get_path()))
         root=tree.getroot()
         if root.tag != 'mapper':
             pass
@@ -52,7 +55,7 @@ class iBatis2SQLNamedQuery(cast.analysers.jee.Extension):
         options.handle_xml_with_xpath('//sqlMap')
 
     def start_xml_file(self, file):       
-        tree = ET.ElementTree(file=open(file.get_path()))
+        tree = ET.ElementTree(file=open_source_file(file.get_path()))
         root=tree.getroot()
         if root.tag != 'sqlMap':
             pass
